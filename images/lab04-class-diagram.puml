@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface Shape {
+{abstract} + draw() const : void
++ ~Shape() = default
+}
+
+class Circle {
+- radius: double
++ Circle(theRadius: double)
++ getRadius() const: double
++ draw() : void
+}
+
+class Rectangle {
+- length: double
+- width: double
++ Rectangle(theLength: double, theWidth: double)
++ getLength() const: double
++ getWidth() const: double
++ draw() : void
+}
+
+Shape <|-- Circle
+Shape <|-- Rectangle
+
+@enduml
