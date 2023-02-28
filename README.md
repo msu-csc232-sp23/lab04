@@ -1,54 +1,135 @@
-# Assignment Title
+# LAB04 - Introduction to Polymorphism
 
-Template project for doctest-based solutions.
+In this lab we explore the concept of **polymorphism** with a simple class hierarchy of shapes.
 
 ## Due Date
 
-This assignment is due...
+This assignment is due Saturday, March 4, 2023 by 23:59:59.
 
 ## Background
 
-Cur historia studere?
+Polymorphism is a fundamental tenant of object-oriented programming (OOP).
+
+![Class Diagram](images/lab04-class-diagram.png)
+
+**NOTE**: In the class diagram shown above, private data members are indicated with a red, hollow, square icon. Public member functions are indicated with a green, filled, circular icon.
 
 ### Advanced Reading
 
 - General > Files > Class Materials > Setting Up WSL for CSC232.pdf
+- Carrano & Henry, 
+  - Chapter 1 Data Abstraction: The Walls
+  - C++ Interlude 1 C++ Classes
+  - C++ Interlude 2 Pointers, Polymorphism, and Memory Allocation
 
 ## Objectives
 
-- Vae, xiphias!
-- Est bi-color planeta, cesaris.
-- Vae.
+Upon successful completion of this lab, the student
+
+- understands the concept of polymorphism
+- knows how to demonstrate polymorphic behavior
+- knows the difference between early and late binding of class methods
 
 ## Tasks
 
-1. Task 1
-2. Task 2
-3. Task 3
+1. Task 1: Create a Shape interface
+2. Task 2: Create a Circle class that implements the Shape interface
+3. Task 3: Create a Square class that implements the Shape interface
 
-### Task 1
+In each of these tasks, you are asked to create new files. It is imperative that you follow the instructions carefully and use the prescribed naming conventions. 
 
-1. Varius, azureus amicitias patienter reperire de dexter, germanus silva.
-2. Neuter compater unus tractares messor est.
-3. When you have completed this task, toggle the `SKIP_TESTING_TASK_1` macro from `TRUE` to `FALSE`.
-4. Build and execute the `test` target to test your solution.
-5. When all the tests for this task pass, commit and push your changes to GitHub.
+Further, note that the unit tests are reading the contents of the files you are working on for any given task. As such, if you find yourself changing the contents of a file in an effort to get some unit test to pass, you'll need to reset `cmake`'s cached files and reload the CMake project. 
 
-### Task 2
+If you're using CLion, this is done under the Tools menu as shown below:
 
-1. Lumen, solem, et elogium.
-2. Eheu, alter fraticinida!
-3. When you have completed this task, toggle the `SKIP_TESTING_TASK_2` macro from `TRUE` to `FALSE`.
-4. Build and execute the `test` target to test your solution.
-5. When all the tests for this task pass, commit and push your changes to GitHub.
+![Reload-clion](images/reload-cmake-after-change-clion.png)
 
-### Task 3
+If you're using Visual Studio Code, this is done via the use of the CMake extension (plugin) as shown here:
 
-1. Hercle, vita fatalis!.
-2. Hercle, saga domesticus!, bassus elevatus!
-3. When you have completed this task, toggle the `SKIP_TESTING_TASK_3` macro from `TRUE` to `FALSE`.
-4. Build and execute the `test` target to test your solution.
-5. When all the tests for this task pass, commit and push your changes to GitHub.
+![Reload-code](images/reload-cmake-after-change-code.png)
+
+### Task 1: Create a shape interface
+
+1. Create a new file named `Shape.h` in the root folder of your repository. NOTE: The filename **must** match exactly as specified in this step. If it does not, the test task for this task will not build.
+2. Add this new file to the three test task targets in the `CMakeLists.txt` file. If you're using CLion, this can easily be done when you first create the file, as shown below by selecting the "Add to targets" checkbox and the corresponding target variables:
+
+   ![Targets](images/targets-task1.png)
+
+   If you are not using CLion, you can just edit the `CMakeLists.txt` file directly. Simply change the following lines
+
+   ```cmake
+   set(SRC_TEST_TASK1_FILES csc232.cpp test_task1.cpp)
+   set(SRC_TEST_TASK2_FILES csc232.cpp test_task2.cpp)
+   set(SRC_TEST_TASK3_FILES csc232.cpp test_task3.cpp)
+   ```
+   
+   to include the name of the new file you created in the previous step
+   
+   ```cmake
+   set(SRC_TEST_TASK1_FILES csc232.cpp test_task1.cpp Shape.h)
+   set(SRC_TEST_TASK2_FILES csc232.cpp test_task2.cpp Shape.h)
+   set(SRC_TEST_TASK3_FILES csc232.cpp test_task3.cpp Shape.h)
+   ```
+   
+   Be sure to add them to all three test targets, even though it's first created here in the first task. It will be needed in the other tasks (as a dependency), so you may as well set all three targets now.
+
+3. Using the class diagram found in the [Background](#background) as your guide, code this interface accordingly. Keep in mind: the diagram shows `Shape` to be an interface. This means then, that the methods shown should be _declared_ as **pure virtual** functions (making this, in reality, an abstract class in C++).
+4. When you have completed this task, toggle the `SKIP_TESTING_TASK_1` macro from `TRUE` to `FALSE`.
+5. Build and execute the `test_task1` target to test your solution. Alternatively, you can do build and execute the `All CTest` target.
+6. When all the tests for this task pass, stage, commit and push your changes to GitHub. NOTE: If your tests are failing, and you're making changes to get them to pass, be sure to follow the instructions above on resetting and reloading cmake.
+
+### Task 2: Create a Circle class that implements the Shape interface
+
+1. Create two new files named `Circle.h` and `Circle.cpp`.
+2. Add this new file to the next two test task targets in the `CMakeLists.txt` file. If you're using CLion, this can easily be done when you first create the files, as shown below by selecting the "Add to targets" checkbox and the corresponding target variables:
+
+   ![Targets](images/targets-task2.png)
+
+   If you are not using CLion, you can just edit the `CMakeLists.txt` file directly. Simply change the following lines
+
+   ```cmake
+   set(SRC_TEST_TASK2_FILES csc232.cpp test_task2.cpp Shape.h)
+   set(SRC_TEST_TASK3_FILES csc232.cpp test_task3.cpp Shape.h)
+   ```
+
+   to include the name of the new files you created in the previous step
+
+   ```cmake
+   set(SRC_TEST_TASK2_FILES csc232.cpp test_task2.cpp Shape.h Circle.cpp Circle.h)
+   set(SRC_TEST_TASK3_FILES csc232.cpp test_task3.cpp Shape.h Circle.cpp Circle.h)
+   ```
+   
+   Be sure to add them to all the last two test targets, even though it's first created here in the second task. They will be needed in the next task as well (as a dependency), so you may as well set all the relevant targets now.
+
+3. Using the class diagram found in the [Background](#background) as your guide, code this class accordingly. Be sure to mark the appropriate method as an override.
+4. When you have completed this task, toggle the `SKIP_TESTING_TASK_2` macro from `TRUE` to `FALSE`.
+5. Build and execute the `test_task2` target to test your solution. Alternatively, you can do build and execute the `All CTest` target.
+6. When all the tests for this task pass, stage, commit and push your changes to GitHub. NOTE: If your tests are failing, and you're making changes to get them to pass, be sure to follow the instructions above on resetting and reloading cmake.
+
+### Task 3: Create a Square class that implements the Shape interface
+
+1. Create two new files named `Rectangle.h` and `Rectangle.cpp`.
+2. Add these new files to the third test task target in the `CMakeLists.txt` file. If you're using CLion, this can easily be done when you first create the files, as shown below by selecting the "Add to targets" checkbox and the corresponding target variables:
+
+   ![Targets](images/targets-task3.png)
+
+   If you are not using CLion, you can just edit the `CMakeLists.txt` file directly. Simply change the following lines
+
+   ```cmake
+   set(SRC_TEST_TASK3_FILES csc232.cpp test_task3.cpp Shape.h Circle.cpp Circle.h)
+   ```
+
+   to include the name of the new files you created in the previous step
+
+   ```cmake
+   set(SRC_TEST_TASK3_FILES csc232.cpp test_task3.cpp Shape.h Circle.cpp Circle.h Rectangle.cpp Rectangle.h)
+   ```
+   Be sure to add them to just the last test target.
+
+3. Using the class diagram found in the [Background](#background) as your guide, code this class accordingly. Be sure to mark the appropriate method as an override.
+4. When you have completed this task, toggle the `SKIP_TESTING_TASK_3` macro from `TRUE` to `FALSE`.
+5. Build and execute the `test_task3` target to test your solution. Alternatively, you can do build and execute the `All CTest` target.
+6. When all the tests for this task pass, stage, commit and push your changes to GitHub. NOTE: If your tests are failing, and you're making changes to get them to pass, be sure to follow the instructions above on resetting and reloading cmake.
 
 ## Submission Details
 
@@ -64,7 +145,7 @@ If you've already set up remote tracking (using the `-u origin develop` switch),
 git push
 ```
 
-As usual, prior to submitting your assignment on Blackboard, be sure that you have committed and pushed your final changes to GitHub. Once your final changes have been pushed, create a pull request that seeks to merge the changes in your `develop` branch into your `trunk` branch. Once your pull request has been created, submit the URL of your assignment _repository_ (i.e., _not_ the URL of the pull request) on the Teams Assignment. Please note: the timestamp of the submission on Teams is used to assess any late penalties if and when warranted, _not_ the date/time you create your pull request. **No exceptions will be granted for this oversight**.
+As usual, prior to submitting your assignment on Microsoft Teams, be sure that you have committed and pushed your final changes to GitHub. Once your final changes have been pushed, create a pull request that seeks to merge the changes in your `develop` branch into your `trunk` branch. Once your pull request has been created, submit the URL of your assignment _repository_ (i.e., _not_ the URL of the pull request) on the Teams Assignment as a Link Resource. Please note: the timestamp of the submission on Teams is used to assess any late penalties if and when warranted, _not_ the date/time you create your pull request. **No exceptions will be granted for this oversight**.
 
 ### Grading Rubric
 

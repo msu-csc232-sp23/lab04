@@ -27,6 +27,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cctype>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
@@ -54,5 +55,7 @@ using std::cin;
 using std::cout;
 using std::endl;
 using std::vector;
+
+// Expanded templates
 
 #endif // MSU_CSC232_SP23_H

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(doc_test_template VERSION 0.0.1 LANGUAGES CXX)
+project(lab04 VERSION 0.0.1 LANGUAGES CXX)
 
 if (CMAKE_VERSION GREATER_EQUAL "3.24.0")
     cmake_policy(SET CMP0135 NEW)
@@ -7,6 +7,9 @@ endif()
 
 set(CMAKE_CXX_STANDARD 14)
 set(IS_LAB TRUE)
+set(TEST_TASK1 FALSE)
+set(TEST_TASK2 FALSE)
+set(TEST_TASK3 FALSE)
 
 if( IS_LAB )
     message("Configuring lab assignment...")
@@ -17,15 +20,10 @@ endif()
 # Source sets for targets
 set(SRC_MAIN_TARGET_FILES main.cpp csc232.cpp)
 set(SRC_DEMO_TARGET_FILES csc232.cpp demo.cpp)
-set(SRC_TEST_TASK1_FILES
-        csc232.cpp
-        test_task1.cpp)
-set(SRC_TEST_TASK2_FILES
-        csc232.cpp
-        test_task2.cpp)
-set(SRC_TEST_TASK3_FILES
-        csc232.cpp
-        test_task3.cpp)
+set(SRC_TEST_TASK1_FILES csc232.cpp test_task1.cpp)
+set(SRC_TEST_TASK2_FILES csc232.cpp test_task2.cpp)
+set(SRC_TEST_TASK3_FILES csc232.cpp test_task3.cpp)
+
 if(NOT IS_LAB)
 set(SRC_TEST_TASK4_FILES
         csc232.cpp
@@ -50,29 +48,47 @@ endif()
 # add custom commands that copy data input files to target working directories
 add_custom_command(TARGET main PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/main_data.txt ${CMAKE_CURRENT_BINARY_DIR})
 add_custom_command(TARGET demo PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/demo_data.txt ${CMAKE_CURRENT_BINARY_DIR})
-add_custom_command(TARGET test_task1 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/csc232.h ${CMAKE_CURRENT_BINARY_DIR})
-add_custom_command(TARGET test_task2 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/csc232.h ${CMAKE_CURRENT_BINARY_DIR})
-add_custom_command(TARGET test_task3 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/csc232.h ${CMAKE_CURRENT_BINARY_DIR})
+
+enable_testing()
+
+if (TEST_TASK1)
+    add_custom_command(TARGET test_task1 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/csc232.h ${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_command(TARGET test_task1 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/csc232.cpp ${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_command(TARGET test_task1 POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_LIST_DIR}/Shape.h ${CMAKE_CURRENT_BINARY_DIR})
+
+    add_test(NAME TestTask1 COMMAND test_task1)
+endif()
+
+if (TEST_TASK2)
+    add_custom_command(TARGET test_task2 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/csc232.h ${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_command(TARGET test_task2 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/csc232.cpp ${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_command(TARGET test_task2 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_LIST_DIR}/Shape.h ${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_command(TARGET test_task2 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/Circle.h ${CMAKE_CURRENT_BINARY_DIR})
+
+    add_test(NAME TestTask2 COMMAND test_task2)
+endif()
+
+if (TEST_TASK3)
+    add_custom_command(TARGET test_task3 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/csc232.h ${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_command(TARGET test_task3 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/csc232.cpp ${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_command(TARGET test_task3 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_LIST_DIR}/Shape.h ${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_command(TARGET test_task3 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/Circle.h ${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_command(TARGET test_task3 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/Circle.cpp ${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_command(TARGET test_task3 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/Rectangle.h ${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_command(TARGET test_task3 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/Rectangle.cpp ${CMAKE_CURRENT_BINARY_DIR})
+
+    add_test(NAME TestTask3 COMMAND test_task3)
+endif()
 
 if(NOT IS_LAB)
     add_custom_command(TARGET test_task4 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/csc232.h ${CMAKE_CURRENT_BINARY_DIR})
     add_custom_command(TARGET test_task5 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/csc232.h ${CMAKE_CURRENT_BINARY_DIR})
 endif()
 
-add_custom_command(TARGET test_task1 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/csc232.cpp ${CMAKE_CURRENT_BINARY_DIR})
-add_custom_command(TARGET test_task2 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/csc232.cpp ${CMAKE_CURRENT_BINARY_DIR})
-add_custom_command(TARGET test_task3 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/csc232.cpp ${CMAKE_CURRENT_BINARY_DIR})
-
 if(NOT IS_LAB)
     add_custom_command(TARGET test_task4 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/csc232.cpp ${CMAKE_CURRENT_BINARY_DIR})
     add_custom_command(TARGET test_task5 PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_LIST_DIR}/csc232.cpp ${CMAKE_CURRENT_BINARY_DIR})
 endif()
-
-enable_testing()
-
-add_test(NAME TestTask1 COMMAND test_task1)
-add_test(NAME TestTask2 COMMAND test_task2)
-add_test(NAME TestTask3 COMMAND test_task3)
 
 if(NOT IS_LAB)
     add_test(NAME TestTask4 COMMAND test_task4)
